@@ -1,0 +1,25 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        var omdbToken = System.getenv("OMDBTOKEN") ?: '28c5b7b1'
+        buildConfigField "String", "omdbToken", "\"$omdbToken\""
+    }
+    namespace 'io.github.atetc.omdbapi'
+}
+
+dependencies {
+    implementation coreLib.coreKtx
+    implementation netLib.retrofit
+    implementation netLib.gsonConverter
+    //noinspection GradleDependency
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+
+    testImplementation testLib.junit
+    testImplementation testLib.coroutinesTest
+}

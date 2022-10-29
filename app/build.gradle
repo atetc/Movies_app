@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "io.github.atetc.moviesapp"
+        minSdk 27
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+        var omdbToken = System.getenv("OMDBTOKEN") ?: '28c5b7b1'
+        buildConfigField "String", "omdbToken", "\"$omdbToken\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    namespace 'io.github.atetc.moviesapp'
+}
+
+dependencies {
+    implementation project(':omdbapi')
+    implementation project(':domain')
+
+    implementation coreLib.coreKtx
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.activity:activity-compose:1.6.1'
+
+    implementation compose.ui
+    implementation compose.material
+    implementation compose.toolingPreview
+    implementation compose.tooling
+    implementation compose.runtimeLivedata
+
+    implementation "androidx.navigation:navigation-compose:2.5.3"
+
+    implementation 'io.coil-kt:coil-compose:2.2.2'
+
+    //Hilt
+    implementation 'com.google.dagger:hilt-android:2.44'
+    implementation 'androidx.test.ext:junit-ktx:1.1.3'
+    //noinspection GradleDependency
+    androidTestImplementation 'junit:junit:4.12'
+    kapt 'com.google.dagger:hilt-compiler:2.44'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    testImplementation testLib.junit
+}
