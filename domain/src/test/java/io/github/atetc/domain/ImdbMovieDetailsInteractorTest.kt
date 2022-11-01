@@ -5,8 +5,8 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.github.atetc.domain.interactors.ImdbMovieDetailsInteractor
 import io.github.atetc.domain.mappers.imdb.MovieDetails
-import io.github.atetc.omdbapi.api.OmdbApi
-import io.github.atetc.omdbapi.dto.MovieDetailResponse
+import io.github.atetc.data.api.OmdbNetworkRepository
+import io.github.atetc.data.dto.MovieDetailResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -24,14 +24,14 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class ImdbMovieDetailsInteractorTest {
 
-    private val omdbApi: OmdbApi = mock()
+    private val omdbNetworkRepository: OmdbNetworkRepository = mock()
 
-    private val interactor = ImdbMovieDetailsInteractor(Dispatchers.Unconfined, omdbApi)
+    private val interactor = ImdbMovieDetailsInteractor(Dispatchers.Unconfined, omdbNetworkRepository)
 
     @Before
     fun before() {
         Dispatchers.setMain(Dispatchers.Unconfined)
-        Mockito.reset(omdbApi)
+        Mockito.reset(omdbNetworkRepository)
     }
 
     @After
@@ -41,7 +41,7 @@ class ImdbMovieDetailsInteractorTest {
 
     @Test
     fun testSuccessAction() = runTest {
-        whenever(omdbApi.getMovieDetail("successId")).thenReturn(
+        whenever(omdbNetworkRepository.getMovieDetail("successId")).thenReturn(
             MovieDetailResponse(
                 imdbID = "imdbID",
                 title = "title",
@@ -56,7 +56,7 @@ class ImdbMovieDetailsInteractorTest {
 
         val result = interactor.action("successId")
 
-        verify(omdbApi).getMovieDetail("successId")
+        verify(omdbNetworkRepository).getMovieDetail("successId")
 
         assertEquals((result as MovieDetails.Success).movie.imdbId, "imdbID")
         assertEquals(result.movie.title, "title")
@@ -70,11 +70,11 @@ class ImdbMovieDetailsInteractorTest {
 
     @Test
     fun testErrorAction() = runTest {
-        whenever(omdbApi.getMovieDetail("errorId")).thenReturn(MovieDetailResponse(error = "Error Message"))
+        whenever(omdbNetworkRepository.getMovieDetail("errorId")).thenReturn(MovieDetailResponse(error = "Error Message"))
 
         val result = interactor.action("errorId")
 
-        verify(omdbApi).getMovieDetail("errorId")
+        verify(omdbNetworkRepository).getMovieDetail("errorId")
         assertEquals((result as MovieDetails.Error).message, "Error Message")
     }
 }

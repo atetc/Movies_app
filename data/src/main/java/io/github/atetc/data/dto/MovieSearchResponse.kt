@@ -1,4 +1,4 @@
-package io.github.atetc.omdbapi.dto
+package io.github.atetc.data.dto
 
 import com.google.gson.annotations.SerializedName
 
@@ -14,8 +14,4 @@ data class MovieSearchResponse(
 
     @field:SerializedName("Search")
     val search: ArrayList<SearchItem>? = null
-){
-    fun isSuccess() = response.equals("True",true)
-
-    fun getTotalItems() = totalResults?.toIntOrNull()?:0
-}
+)

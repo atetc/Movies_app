@@ -10,9 +10,9 @@ import io.github.atetc.domain.interactors.ImdbSearchInteractor
 import io.github.atetc.domain.interactors.Interactor
 import io.github.atetc.domain.mappers.imdb.MovieDetails
 import io.github.atetc.domain.mappers.imdb.MovieSearch
-import io.github.atetc.omdbapi.BuildConfig
-import io.github.atetc.omdbapi.api.OmdbApi
-import io.github.atetc.omdbapi.api.OmdbApiFactory
+import io.github.atetc.data.BuildConfig
+import io.github.atetc.data.api.OmdbApiFactory
+import io.github.atetc.data.api.OmdbNetworkRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Named
@@ -30,12 +30,12 @@ class MainModule {
     @Provides
     fun imdbSearchInteractor(
         @Named("ioDispatcher") dispatcher: CoroutineDispatcher,
-        omdbApi: OmdbApi
-    ): Interactor<MovieSearchParameters, MovieSearch> = ImdbSearchInteractor(dispatcher, omdbApi)
+        omdbNetworkRepository: OmdbNetworkRepository
+    ): Interactor<MovieSearchParameters, MovieSearch> = ImdbSearchInteractor(dispatcher, omdbNetworkRepository)
 
     @Provides
     fun imdbMovieDetailsInteractor(
         @Named("ioDispatcher") dispatcher: CoroutineDispatcher,
-        omdbApi: OmdbApi
-    ): Interactor<String, MovieDetails> = ImdbMovieDetailsInteractor(dispatcher, omdbApi)
+        omdbNetworkRepository: OmdbNetworkRepository
+    ): Interactor<String, MovieDetails> = ImdbMovieDetailsInteractor(dispatcher, omdbNetworkRepository)
 }

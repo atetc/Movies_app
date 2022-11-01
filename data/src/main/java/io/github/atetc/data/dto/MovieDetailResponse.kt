@@ -1,4 +1,4 @@
-package io.github.atetc.omdbapi.dto
+package io.github.atetc.data.dto
 
 import com.google.gson.annotations.SerializedName
 
@@ -80,6 +80,4 @@ data class MovieDetailResponse(
 
     @field:SerializedName("Error")
     val error: String? = null,
-) {
-    fun isSuccess() = response.equals("True", true)
-}
+)

@@ -1,4 +1,4 @@
-package io.github.atetc.omdbapi.api
+package io.github.atetc.data.api
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object OmdbApiFactory {
     private const val BASE_URL = "https://www.omdbapi.com/"
 
-    fun build(token: String): OmdbApi {
+    fun build(token: String): OmdbNetworkRepository {
         val gson = GsonBuilder()
             .setLenient()
             .create()
@@ -41,6 +41,6 @@ object OmdbApiFactory {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-        return retrofit.create(OmdbApi::class.java)
+        return retrofit.create(OmdbNetworkRepository::class.java)
     }
 }

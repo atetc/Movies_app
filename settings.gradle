@@ -14,5 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Movies app"
 include ':app'
-include ':omdbapi'
+include ':data'
 include ':domain'
