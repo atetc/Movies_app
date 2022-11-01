@@ -2,7 +2,7 @@ package io.github.atetc.domain.mappers.imdb
 
 import io.github.atetc.domain.movie.Movie
 import io.github.atetc.domain.mappers.Mapper
-import io.github.atetc.omdbapi.dto.MovieDetailResponse
+import io.github.atetc.data.dto.MovieDetailResponse
 
 internal class DetailsResponseToMovieMapper : Mapper<MovieDetailResponse, Movie> {
     override fun map(input: MovieDetailResponse) = Movie(

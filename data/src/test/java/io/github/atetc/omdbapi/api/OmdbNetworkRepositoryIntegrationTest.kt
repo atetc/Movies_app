@@ -1,11 +1,12 @@
 package io.github.atetc.omdbapi.api
 
-import io.github.atetc.omdbapi.BuildConfig
+import io.github.atetc.data.api.OmdbApiFactory
+import io.github.atetc.data.BuildConfig
 import org.junit.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class OmdbApiIntegrationTest {
+class OmdbNetworkRepositoryIntegrationTest {
     private val api =  OmdbApiFactory.build(BuildConfig.omdbToken)
 
     @Test

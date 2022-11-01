@@ -10,7 +10,7 @@ android {
         var omdbToken = System.getenv("OMDBTOKEN") ?: '28c5b7b1'
         buildConfigField "String", "omdbToken", "\"$omdbToken\""
     }
-    namespace 'io.github.atetc.omdbapi'
+    namespace 'io.github.atetc.data'
 }
 
 dependencies {

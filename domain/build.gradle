@@ -9,8 +9,7 @@ android {
 }
 
 dependencies {
-    implementation project(':omdbapi')
-
+    implementation project(':data')
     implementation coreLib.coreKtx
     testImplementation testLib.junit
 

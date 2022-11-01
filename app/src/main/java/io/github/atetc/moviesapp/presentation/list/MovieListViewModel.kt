@@ -28,23 +28,23 @@ class MoviesListViewModel @Inject constructor(private val searchInteractor: Inte
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(searchDebounce)
+            _state.value = MoviesListState.Loading
             updateSearch(search)
         }
     }
 
-    private fun updateSearch(search: String) {
-        _state.value = MoviesListState.Loading
-        CoroutineScope(Dispatchers.Main).launch {
+    private suspend fun updateSearch(search: String) {
+        _state.value = withContext(Dispatchers.Default) {
             try {
                 when(val result = searchInteractor.execute(MovieSearchParameters(search))){
-                    is MovieSearch.Error -> _state.value = MoviesListState.Error(result.message)
-                    is MovieSearch.Success -> _state.value = MoviesListState.Content(result.movies)
+                    is MovieSearch.Error -> MoviesListState.Error(result.message)
+                    is MovieSearch.Success -> MoviesListState.Content(result.movies)
                 }
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) {
-                    _state.value = MoviesListState.Error(e.message.toString())
+                    MoviesListState.Error(e.message.toString())
                 } else {
-                    _state.value = MoviesListState.Error("Network error")
+                    MoviesListState.Error("Network error")
                 }
             }
         }
