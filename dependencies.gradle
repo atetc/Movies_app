@@ -33,7 +33,7 @@ ext {
 
     coreLib = [
             coreKtx         : "androidx.core:core-ktx:$coreKtx",
-            coroutinesCore  : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+            coroutinesCore  : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
     ]
 
     testLib = [

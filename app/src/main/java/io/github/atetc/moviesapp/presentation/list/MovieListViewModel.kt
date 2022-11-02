@@ -34,19 +34,18 @@ class MoviesListViewModel @Inject constructor(private val searchInteractor: Inte
     }
 
     private suspend fun updateSearch(search: String) {
-        _state.value = withContext(Dispatchers.Default) {
-            try {
-                when(val result = searchInteractor.execute(MovieSearchParameters(search))){
-                    is MovieSearch.Error -> MoviesListState.Error(result.message)
-                    is MovieSearch.Success -> MoviesListState.Content(result.movies)
-                }
-            } catch (e: Exception) {
-                if (BuildConfig.DEBUG) {
-                    MoviesListState.Error(e.message.toString())
-                } else {
-                    MoviesListState.Error("Network error")
-                }
+        try {
+            _state.value = when(val result = searchInteractor.execute(MovieSearchParameters(search))){
+                is MovieSearch.Error -> MoviesListState.Error(result.message)
+                is MovieSearch.Success -> MoviesListState.Content(result.movies)
+            }
+        } catch (e: Exception) {
+            _state.value = if (BuildConfig.DEBUG) {
+                MoviesListState.Error(e.message.toString())
+            } else {
+                MoviesListState.Error("Network error")
             }
         }
+
     }
 }

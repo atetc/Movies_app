@@ -7,9 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.atetc.domain.interactors.Interactor
 import io.github.atetc.domain.mappers.imdb.MovieDetails
 import io.github.atetc.moviesapp.BuildConfig
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,21 +20,19 @@ class MovieDetailsViewModel @Inject constructor(private val movieDetailsInteract
     fun getMovieDetail(movieId: String) {
         _state.value = MovieDetailsState.Loading
         viewModelScope.launch {
-            _state.value = withContext(Dispatchers.Default) {
-                try {
-                    when(val result = movieDetailsInteractor.execute(movieId)){
-                        is MovieDetails.Error ->  MovieDetailsState.Error(result.message)
-                        is MovieDetails.Success ->
-                            MovieDetailsState.Content(result.movie)
-                    }
-                } catch (e: Exception) {
-                    if (BuildConfig.DEBUG) {
-                        MovieDetailsState.Error(e.message.toString())
-                    } else {
-                        MovieDetailsState.Error("Network error")
-                    }
+            try {
+                _state.value = when(val result = movieDetailsInteractor.execute(movieId)){
+                    is MovieDetails.Error -> MovieDetailsState.Error(result.message)
+                    is MovieDetails.Success ->
+                        MovieDetailsState.Content(result.movie)
+                }
+            } catch (e: Exception) {
+                _state.value = if (BuildConfig.DEBUG) {
+                    MovieDetailsState.Error(e.message.toString())
+                } else {
+                    MovieDetailsState.Error("Network error")
                 }
             }
-        }
+            }
     }
 }
