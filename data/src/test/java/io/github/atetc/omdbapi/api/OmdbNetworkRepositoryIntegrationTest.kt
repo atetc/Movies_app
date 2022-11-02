@@ -26,7 +26,7 @@ class OmdbNetworkRepositoryIntegrationTest {
             result.plot
         )
         assertEquals("English, Russian", result.language)
-        assertEquals("Australia, United States", result.country)
+        assertEquals("Australia", result.country)
         assertEquals("Won 6 Oscars. 247 wins & 233 nominations total", result.awards)
         assertEquals(
             "https://m.media-amazon.com/images/M/MV5BN2EwM2I5OWMtMGQyMi00Zjg1LWJkNTctZTdjYTA4OGUwZjMyXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",

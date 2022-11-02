@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,16 +16,12 @@ import io.github.atetc.moviesapp.theme.MovieDetailsScreen
 import io.github.atetc.moviesapp.theme.MoviesListScreen
 import io.github.atetc.moviesapp.theme.SplashScreen
 import io.github.atetc.moviesapp.ui.theme.MoviesAppTheme
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.lifecycleScope.launch {
-
-        }
         setContent {
             MoviesAppTheme {
                 val navController = rememberNavController()
